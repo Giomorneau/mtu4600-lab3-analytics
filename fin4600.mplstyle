@@ -1,0 +1,54 @@
+# FIN 4600 shared matplotlib style
+#
+# Colours are a colour-vision-deficiency-safe categorical order. They are
+# assigned in this fixed sequence and never cycled past the eighth series --
+# if a chart needs more than eight colours, the chart is wrong, not the palette.
+#
+# Use with:  plt.style.use(REPO / "fin4600.mplstyle")
+
+axes.prop_cycle: cycler('color', ['2a78d6', 'eb6834', '1baf7a', 'eda100', 'e87ba4', '008300', '4a3aa7', 'e34948'])
+
+figure.figsize: 9, 4.5
+figure.dpi: 110
+figure.facecolor: white
+savefig.dpi: 150
+savefig.bbox: tight
+
+axes.facecolor: white
+axes.edgecolor: 52514e
+axes.linewidth: 0.8
+axes.spines.top: False
+axes.spines.right: False
+axes.titlesize: 12
+axes.titleweight: bold
+axes.titlelocation: left
+axes.titlepad: 10
+axes.labelsize: 10
+axes.labelcolor: 52514e
+axes.grid: True
+axes.grid.axis: y
+
+grid.color: e6e5e2
+grid.linewidth: 0.7
+grid.alpha: 1.0
+
+lines.linewidth: 2.0
+lines.markersize: 5
+lines.solid_capstyle: round
+
+xtick.color: 52514e
+ytick.color: 52514e
+xtick.labelsize: 9
+ytick.labelsize: 9
+xtick.direction: out
+ytick.direction: out
+
+legend.frameon: False
+legend.fontsize: 9
+
+font.size: 10
+text.color: 0b0b0b
+image.cmap: Blues
+
+# Draw grid lines behind the data, never on top of it.
+axes.axisbelow: True

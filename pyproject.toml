@@ -1,0 +1,30 @@
+[project]
+name = "mtu4600-lab3-analytics"
+version = "1.0.0"
+description = "FIN 4600 Lab 3 - Financial data analytics and machine learning with pandas and scikit-learn"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "matplotlib>=3.8",
+    "seaborn>=0.13",
+    "scikit-learn>=1.5",
+    "jupyter>=1.1",
+    "ipykernel>=6.29",
+    "scipy>=1.11",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+# Optional: only needed if you want to refresh the bundled CSVs from a live
+# market data feed. `uv sync --extra live`
+live = [
+    "yfinance>=0.2.40",
+]
+
+[tool.uv]
+# This repository is a collection of notebooks and scripts, not an installable
+# library, so uv should only manage the dependency environment.
+package = false

@@ -1,0 +1,20 @@
+{
+  // Run every notebook with the repo root as the working directory, so that
+  // relative paths like data/sp500_prices.csv always resolve the same way for
+  // every student on every operating system.
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+
+  // VS Code auto-discovers the .venv folder that `uv sync` creates. We do not
+  // hard-code the interpreter path here because it differs between Windows
+  // (.venv\Scripts\python.exe) and macOS/Linux (.venv/bin/python).
+  "python.terminal.activateEnvironment": true,
+
+  // Keep notebook output readable and diffs manageable.
+  "notebook.output.textLineLimit": 40,
+  "notebook.lineNumbers": "on",
+
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.ipynb_checkpoints": true
+  }
+}

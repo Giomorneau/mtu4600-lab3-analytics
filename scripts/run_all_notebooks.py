@@ -36,6 +36,12 @@ def find_repo_root() -> Path:
 
 
 def main() -> int:
+    if sys.platform == "win32":
+        # pyzmq needs add_reader(), which the default Proactor loop lacks.
+        import asyncio
+
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
     import nbformat
     from nbclient import NotebookClient
     from nbclient.exceptions import CellExecutionError

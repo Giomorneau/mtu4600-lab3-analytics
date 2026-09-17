@@ -12,6 +12,28 @@ their fixes.
 
 ---
 
+## Windows or Mac?
+
+**Almost everything below is identical on both.** Only four things differ, and
+each is flagged where it appears:
+
+| Step | Windows | macOS |
+|---|---|---|
+| Terminal you type in | **PowerShell** (VS Code opens this by default) | **Terminal** / zsh (VS Code opens this by default) |
+| Installing uv (Part 3.1) | one PowerShell command | one `curl` command |
+| Installing Git (Part 2.4) | download an installer | one command, triggers an Apple prompt |
+| Deleting `.venv` to start over | `Remove-Item -Recurse -Force .venv` | `rm -rf .venv` |
+
+Everything else — VS Code, the extensions, `uv sync`, cloning, selecting the
+kernel, running notebooks, `git` commands — is character-for-character the same.
+
+Two reassurances for Mac users: **Apple Silicon (M1–M4) and Intel Macs both
+work**, uv picks the right build automatically, and you do **not** need to
+install Xcode. Two for Windows users: you do **not** need administrator rights,
+and you do **not** need WSL.
+
+---
+
 ## Part 1 — GitHub account (10 minutes)
 
 GitHub is where the code lives. It is version control, backup, and submission
@@ -39,6 +61,10 @@ better than SMS. Save the recovery codes somewhere you will still have them in
 six months.
 
 ### 1.3 Claim your student benefits
+
+Michigan Tech participates in GitHub's education programs, so your @mtu.edu
+address qualifies you for the **GitHub Student Developer Pack** — a bundle of
+professional developer tools that are free while you are a student.
 
 Visit <https://education.github.com/pack> and apply with your MTU email.
 Verification sometimes takes a day or two, and it is not required for this lab
@@ -79,6 +105,27 @@ Click the **account icon** at the bottom-left → **Sign in to sync settings** �
 sign in with GitHub. This lets VS Code push your work without asking for a
 password every time.
 
+### 2.4 Make sure Git is installed
+
+VS Code does not include Git; it drives the copy installed on your machine.
+Open a terminal in VS Code (**Terminal → New Terminal**) and run:
+
+```bash
+git --version
+```
+
+If you get a version number, skip ahead to Part 3.
+
+**Windows** — Git is not installed by default. Download it from
+<https://git-scm.com/download/win> and run the installer. Accept every default;
+they are sensible. Then **close VS Code completely and reopen it** so it picks
+up the new installation.
+
+**macOS** — running `git --version` on a machine that does not have it pops up
+a dialog offering to install the **Command Line Developer Tools**. Click
+**Install** and wait a couple of minutes. This is a small package, not the full
+Xcode application, and it is all you need.
+
 ---
 
 ## Part 3 — Python, via uv (5 minutes)
@@ -100,6 +147,10 @@ with no administrator rights, identically on Windows and macOS.
 
 ### 3.1 Install uv
 
+Both platforms run one command that downloads a small installer script and
+executes it. No administrator rights are needed on either, and nothing is
+installed system-wide — the binary lands in your own home folder.
+
 **Windows** — open **PowerShell** (press Start, type `powershell`, press Enter)
 and paste:
 
@@ -107,11 +158,26 @@ and paste:
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
+What that does: `irm` (Invoke-RestMethod) downloads the script and `iex`
+(Invoke-Expression) runs it. `-ExecutionPolicy ByPass` applies to this one
+command only — it does not change your machine's policy. `uv.exe` is installed
+to `%USERPROFILE%\.local\bin`.
+
+> **Use PowerShell, not Command Prompt.** `irm` and `iex` are PowerShell
+> commands and will not work in `cmd.exe`. VS Code's integrated terminal opens
+> PowerShell by default on Windows; if yours shows `C:\...>` rather than
+> `PS C:\...>`, click the **v** next to the **+** in the terminal panel and
+> choose **PowerShell**.
+
 **macOS or Linux** — open **Terminal** and paste:
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
+
+What that does: `curl` downloads the script and `| sh` pipes it to the shell to
+run. `uv` is installed to `~/.local/bin`. macOS ships with `curl` already, so
+there is nothing to install first.
 
 ### 3.2 Close the terminal and open a new one
 
@@ -136,9 +202,13 @@ You will not work in the instructor's repository directly. You take your own
 copy — a **fork** — make changes there, and push to it. That is exactly how
 professional teams work.
 
+> **Before you start this part**, look at `slides/fork-workflow.pptx` — two
+> diagrams showing where your code lives and what each command moves. Five
+> minutes there saves an hour of confusion here.
+
 ### 4.1 Fork the repository
 
-1. Go to the course repository on GitHub (the instructor will give you the link).
+1. Go to <https://github.com/jimnup/mtu4600-lab3-analytics>.
 2. Click **Fork**, top right.
 3. Leave the name as-is and click **Create fork**.
 
@@ -248,7 +318,7 @@ If the instructor fixes something after you forked, pull it into your fork.
 One-time setup:
 
 ```bash
-git remote add upstream https://github.com/INSTRUCTOR-USERNAME/mtu4600-lab3-analytics.git
+git remote add upstream https://github.com/jimnup/mtu4600-lab3-analytics.git
 ```
 
 Then, whenever you need updates:
@@ -275,6 +345,38 @@ If it still fails:
 - **macOS:** the installer puts it in `~/.local/bin`. Run
   `echo $PATH | tr ':' '\n' | grep local` to see whether that folder is on your
   PATH. If not, run `source ~/.zshrc` or open a fresh Terminal window.
+
+### Windows: "running scripts is disabled on this system"
+
+Some managed or corporate laptops block PowerShell scripts through group policy,
+which the `-ExecutionPolicy ByPass` flag cannot override. Use a package manager
+instead — both install the same binary:
+
+```powershell
+winget install --id=astral-sh.uv -e
+```
+
+or, if you have Scoop:
+
+```powershell
+scoop install main/uv
+```
+
+Then close the terminal, open a new one, and carry on from Part 3.3.
+
+### macOS: an alternative install if you already use Homebrew
+
+Nothing wrong with the `curl` command, but this works equally well:
+
+```bash
+brew install uv
+```
+
+### macOS: "VS Code cannot be opened because the developer cannot be verified"
+
+Gatekeeper being cautious about a freshly downloaded application. Open
+**System Settings → Privacy & Security**, scroll to the bottom, and click
+**Open Anyway** next to the message about Visual Studio Code. This happens once.
 
 ### `uv sync` fails with an SSL or certificate error
 

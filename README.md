@@ -18,10 +18,13 @@ mapping.
 VS Code, and the Python environment step by step, and it has a troubleshooting
 section for when something goes wrong.
 
+The repository lives at <https://github.com/jimnup/mtu4600-lab3-analytics>.
+Fork it to your own GitHub account first — `SETUP.md` Part 4 explains why and how.
+
 If you already have `uv` installed:
 
 ```bash
-git clone <your fork's URL>
+git clone https://github.com/YOUR-USERNAME/mtu4600-lab3-analytics.git
 cd mtu4600-lab3-analytics
 uv sync
 ```
@@ -94,6 +97,7 @@ mtu4600-lab3-analytics/
 ├── data/                       Committed datasets + data dictionary
 │   └── processed/              Written by the notebooks (not in Git)
 ├── notebooks/                  The six labs
+├── slides/                     Fork-workflow deck for the first session
 └── scripts/
     ├── check_environment.py    Terminal version of notebook 00
     ├── refresh_data.py         Optional live data download
